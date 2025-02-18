@@ -18,5 +18,8 @@ public class Messages {
     public static final String EDIT_MOVIE_TITLE = "Editar Película";
     public static final String NEW_MOVIE_TITLE = "Nueva Película";
 
-
+    // Private constructor to hide the implicit public one
+    private Messages() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 }
