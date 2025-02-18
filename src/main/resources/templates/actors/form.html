@@ -63,6 +63,18 @@
             />
         </div>
         <div class="mb-3">
+            <label for="deadDate" class="form-label">Fecha de Defuncion</label>
+            <input
+                    type="date"
+                    class="form-control"
+                    th:field="*{deadDate}"
+                    id="deadDate"
+                    name="deadDate"
+                    placeholder="Escriba la fecha de defuncion"
+                    required="required"
+            />
+        </div>
+        <div class="mb-3">
             <label for="country" class="form-label">País</label>
             <input
                     type="text"
