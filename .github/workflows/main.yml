@@ -87,7 +87,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: java-app
+          name: moviescards-viacava
       
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
