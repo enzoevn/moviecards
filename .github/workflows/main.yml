@@ -96,4 +96,4 @@ jobs:
           app-name: 'moviecards-viacava'
           slot-name: 'Production'
           package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILENAME_7F527A39B4584E339B62E268DF063021 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C8675BC8CBC24EF5A168D9B8AD3CE2BE }}
