@@ -4,6 +4,8 @@ import com.lauracercas.moviecards.model.Actor;
 import com.lauracercas.moviecards.model.Movie;
 import com.lauracercas.moviecards.service.actor.ActorService;
 import com.lauracercas.moviecards.util.Messages;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +25,8 @@ import java.util.List;
 @Controller
 public class ActorController {
 
-    private final ActorService actorService;
+    @Autowired
+    ActorService actorService;
 
     public ActorController(ActorService actorService) {
         this.actorService = actorService;
