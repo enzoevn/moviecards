@@ -1,6 +1,5 @@
 package com.lauracercas.moviecards.unittest.service;
 
-import com.lauracercas.moviecards.model.Actor;
 import com.lauracercas.moviecards.model.Movie;
 import com.lauracercas.moviecards.service.movie.MovieServiceImpl;
 import com.lauracercas.moviecards.util.ApiURL;
@@ -52,7 +51,7 @@ class MovieServiceImplTest {
         movies[0] = new Movie();
         movies[1] = new Movie();        
 
-        when(restTemplate.getForObject(anyString(), any())).thenReturn(movies);
+        when(restTemplate.getForObject(ApiURL.API_URL + "movies", Movie[].class)).thenReturn(movies);
 
         List<Movie> result = sut.getAllMovies();
 
@@ -65,16 +64,18 @@ class MovieServiceImplTest {
         movie.setId(1);
         movie.setTitle("Sample Movie");
 
-        when(restTemplate.getForObject(anyString(), any())).thenReturn(movie);
+        when(restTemplate.getForObject(ApiURL.API_URL + "movies/" + movie.getId(), Movie.class)).thenReturn(movie);
 
         Movie result = sut.getMovieById(1);
 
         assertEquals(1, result.getId());
         assertEquals("Sample Movie", result.getTitle());
+        verify(restTemplate).getForObject(ApiURL.API_URL + "movies/" + movie.getId(), Movie.class);
+
     }
 
     @Test
-    void testGetAllActorsUrl() {
+    void testGetAllMoviesUrl() {
         // Arrange
         Movie[] actors = new Movie[]{new Movie()};
         when(restTemplate.getForObject(ApiURL.API_URL + "movies", Movie[].class)).thenReturn(actors);
@@ -93,11 +94,12 @@ class MovieServiceImplTest {
         Movie movie = new Movie();
         movie.setTitle("New Movie");
 
-        when(restTemplate.postForObject(anyString(), any(Movie.class), eq(Movie.class))).thenReturn(movie);
+        when(restTemplate.postForObject(ApiURL.API_URL + "movies", movie, Movie.class)).thenReturn(movie);
 
         Movie result = sut.save(movie);
 
         assertEquals("New Movie", result.getTitle());
+        verify(restTemplate).postForObject(ApiURL.API_URL + "movies", movie, Movie.class);
     }
 
 }
