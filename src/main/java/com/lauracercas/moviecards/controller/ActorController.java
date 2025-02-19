@@ -32,27 +32,27 @@ public class ActorController {
         this.actorService = actorService;
     }
 
-    String actorAttribute = "actor";
-    String titleAttribute = "title";
-    String actorForm = "actors/form";
+    private static final String ACTOR_ATTRIBUTE = "actor";
+    private static final String TITLE_ATTRIBUTE = "title";
+    private static final String ACTOR_FORM = "actors/form";
 
     @GetMapping("actors")
     public String getActorsList(Model model) {
-        model.addAttribute(actorAttribute, actorService.getAllActors());
+        model.addAttribute(ACTOR_ATTRIBUTE, actorService.getAllActors());
         return "actors/list";
     }
 
     @GetMapping("actors/new")
     public String newActor(Model model) {
-        model.addAttribute(actorAttribute, new Actor());
-        model.addAttribute(titleAttribute, Messages.NEW_ACTOR_TITLE);
-        return actorForm;
+        model.addAttribute(ACTOR_ATTRIBUTE, new Actor());
+        model.addAttribute(TITLE_ATTRIBUTE, Messages.NEW_ACTOR_TITLE);
+        return ACTOR_FORM;
     }
 
     @PostMapping("saveActor")
     public String saveActor(@ModelAttribute Actor actor, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return actorForm;
+            return ACTOR_FORM;
         }
         Actor actorSaved = actorService.save(actor);
         if (actor.getId() != null) {
@@ -61,21 +61,21 @@ public class ActorController {
             model.addAttribute("message", Messages.SAVED_ACTOR_SUCCESS);
         }
 
-        model.addAttribute(actorAttribute, actorSaved);
-        model.addAttribute(titleAttribute, Messages.EDIT_ACTOR_TITLE);
-        return actorForm;
+        model.addAttribute(ACTOR_ATTRIBUTE, actorSaved);
+        model.addAttribute(TITLE_ATTRIBUTE, Messages.EDIT_ACTOR_TITLE);
+        return ACTOR_FORM;
     }
 
     @GetMapping("editActor/{actorId}")
     public String editActor(@PathVariable Integer actorId, Model model) {
         Actor actor = actorService.getActorById(actorId);
         List<Movie> movies = actor.getMovies();
-        model.addAttribute(actorAttribute, actor);
+        model.addAttribute(ACTOR_ATTRIBUTE, actor);
         model.addAttribute("movies", movies);
 
-        model.addAttribute(titleAttribute, Messages.EDIT_ACTOR_TITLE);
+        model.addAttribute(TITLE_ATTRIBUTE, Messages.EDIT_ACTOR_TITLE);
 
-        return actorForm;
+        return ACTOR_FORM;
     }
 
 
