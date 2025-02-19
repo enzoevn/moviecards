@@ -33,6 +33,8 @@ public class ActorController {
     }
 
     String actorAttribute = "actor";
+    String titleAttribute = "title";
+    String actorForm = "actors/form";
 
     @GetMapping("actors")
     public String getActorsList(Model model) {
@@ -43,14 +45,14 @@ public class ActorController {
     @GetMapping("actors/new")
     public String newActor(Model model) {
         model.addAttribute(actorAttribute, new Actor());
-        model.addAttribute("title", Messages.NEW_ACTOR_TITLE);
-        return "actors/form";
+        model.addAttribute(titleAttribute, Messages.NEW_ACTOR_TITLE);
+        return actorForm;
     }
 
     @PostMapping("saveActor")
     public String saveActor(@ModelAttribute Actor actor, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "actors/form";
+            return actorForm;
         }
         Actor actorSaved = actorService.save(actor);
         if (actor.getId() != null) {
@@ -60,8 +62,8 @@ public class ActorController {
         }
 
         model.addAttribute(actorAttribute, actorSaved);
-        model.addAttribute("title", Messages.EDIT_ACTOR_TITLE);
-        return "actors/form";
+        model.addAttribute(titleAttribute, Messages.EDIT_ACTOR_TITLE);
+        return actorForm;
     }
 
     @GetMapping("editActor/{actorId}")
@@ -71,9 +73,9 @@ public class ActorController {
         model.addAttribute(actorAttribute, actor);
         model.addAttribute("movies", movies);
 
-        model.addAttribute("title", Messages.EDIT_ACTOR_TITLE);
+        model.addAttribute(titleAttribute, Messages.EDIT_ACTOR_TITLE);
 
-        return "actors/form";
+        return actorForm;
     }
 
 
