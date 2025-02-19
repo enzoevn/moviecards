@@ -2,6 +2,8 @@ package com.lauracercas.moviecards.unittest.service;
 
 import com.lauracercas.moviecards.model.Actor;
 import com.lauracercas.moviecards.service.actor.ActorServiceImpl;
+import com.lauracercas.moviecards.util.ApiURL;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -67,6 +71,33 @@ class ActorServiceImplTest {
 
         assertEquals(1, result.getId());
         assertEquals("Sample Actor", result.getName());
+    }
+
+    @Test
+    void testGetAllActorsUrl() {
+        // Arrange
+        Actor[] actors = new Actor[]{new Actor()};
+        when(restTemplate.getForObject(ApiURL.API_URL + "actors", Actor[].class)).thenReturn(actors);
+
+        // Act
+        List<Actor> result = sut.getAllActors();
+
+        // Assert
+        assertEquals(1, result.size());
+
+        verify(restTemplate).getForObject(ApiURL.API_URL + "actors", Actor[].class);
+    }
+
+    @Test
+    public void shouldSaveActor() {
+        Actor actor = new Actor();
+        actor.setName("New Actor");
+
+        when(restTemplate.postForObject(anyString(), any(Actor.class), eq(Actor.class))).thenReturn(actor);
+
+        Actor result = sut.save(actor);
+
+        assertEquals("New Actor", result.getName());
     }
 
 }

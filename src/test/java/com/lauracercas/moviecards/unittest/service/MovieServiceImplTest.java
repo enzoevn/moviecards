@@ -1,7 +1,10 @@
 package com.lauracercas.moviecards.unittest.service;
 
+import com.lauracercas.moviecards.model.Actor;
 import com.lauracercas.moviecards.model.Movie;
 import com.lauracercas.moviecards.service.movie.MovieServiceImpl;
+import com.lauracercas.moviecards.util.ApiURL;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +17,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -66,6 +71,33 @@ class MovieServiceImplTest {
 
         assertEquals(1, result.getId());
         assertEquals("Sample Movie", result.getTitle());
+    }
+
+    @Test
+    void testGetAllActorsUrl() {
+        // Arrange
+        Movie[] actors = new Movie[]{new Movie()};
+        when(restTemplate.getForObject(ApiURL.API_URL + "movies", Movie[].class)).thenReturn(actors);
+
+        // Act
+        List<Movie> result = sut.getAllMovies();
+
+        // Assert
+        assertEquals(1, result.size());
+
+        verify(restTemplate).getForObject(ApiURL.API_URL + "movies", Movie[].class);
+    }
+
+    @Test
+    public void shouldSaveMovie() {
+        Movie movie = new Movie();
+        movie.setTitle("New Movie");
+
+        when(restTemplate.postForObject(anyString(), any(Movie.class), eq(Movie.class))).thenReturn(movie);
+
+        Movie result = sut.save(movie);
+
+        assertEquals("New Movie", result.getTitle());
     }
 
 }
