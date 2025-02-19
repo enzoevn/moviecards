@@ -32,15 +32,17 @@ public class ActorController {
         this.actorService = actorService;
     }
 
+    String actorAttribute = "actor";
+
     @GetMapping("actors")
     public String getActorsList(Model model) {
-        model.addAttribute("actors", actorService.getAllActors());
+        model.addAttribute(actorAttribute, actorService.getAllActors());
         return "actors/list";
     }
 
     @GetMapping("actors/new")
     public String newActor(Model model) {
-        model.addAttribute("actor", new Actor());
+        model.addAttribute(actorAttribute, new Actor());
         model.addAttribute("title", Messages.NEW_ACTOR_TITLE);
         return "actors/form";
     }
@@ -57,7 +59,7 @@ public class ActorController {
             model.addAttribute("message", Messages.SAVED_ACTOR_SUCCESS);
         }
 
-        model.addAttribute("actor", actorSaved);
+        model.addAttribute(actorAttribute, actorSaved);
         model.addAttribute("title", Messages.EDIT_ACTOR_TITLE);
         return "actors/form";
     }
@@ -66,7 +68,7 @@ public class ActorController {
     public String editActor(@PathVariable Integer actorId, Model model) {
         Actor actor = actorService.getActorById(actorId);
         List<Movie> movies = actor.getMovies();
-        model.addAttribute("actor", actor);
+        model.addAttribute(actorAttribute, actor);
         model.addAttribute("movies", movies);
 
         model.addAttribute("title", Messages.EDIT_ACTOR_TITLE);

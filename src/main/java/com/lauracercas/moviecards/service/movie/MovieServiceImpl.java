@@ -43,7 +43,6 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getMovieById(Integer movieId) {
-        Movie movie = restTemplate.getForObject(url + "/" + movieId, Movie.class);
-        return movie;
+        return restTemplate.getForObject(url + "/" + movieId, Movie.class);
     }
 }
